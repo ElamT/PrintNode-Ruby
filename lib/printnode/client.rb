@@ -447,6 +447,42 @@ module PrintNode
       JSON.parse('[' + post('/printjobs/', hash).body + ']')[0]
     end
 
+    # Sends a POST request to /webhooks/.
+    #
+    # @param webhoook [PrintNode::Webhook] Webhook object to be submitted.
+    #
+    # == Returns:
+    # The id of the Webhook that was created.
+    # @see https://www.printnode.com/en/docs/api/curl#webhook-creation Webhook creating on API Docs
+    def create_webhook(webhook)
+      hash = webhook.to_hash
+      JSON.parse('[' + post('/webhook/', hash).body + ']')[0]
+    end
+
+
+    # Sends a PATCH request to /webhooks/.
+    #
+    # @param webhoook [PrintNode::Webhook] Webhook object to be submitted.
+    #
+    # == Returns:
+    # The id of the Webhook that was created.
+    # @see https://www.printnode.com/en/docs/api/curl#webhook-modification Webhook creating on API Docs
+    def modify_webhook(webhook)
+      hash = webhook.to_hash
+      response_object = JSON.parse(patch("/webhook/#{webhook.id}", hash).body)
+    end
+
+
+    # Sends a DELETE request to the delete a webhook
+    #
+    # @param webhook_id [Integer] To be deleted
+    #
+    # == Returns:
+    # A response object [].
+    def delete_webook(webhook_id = nil)
+      JSON.parse('[' + delete("/webhook/#{webhook_id}" ).body + ']')[0]
+    end
+
     # sends a GET request to /printjobs/(printjob_set)/states
     #
     # @param printjob_set [String] set of printjobs that we will get states for.
